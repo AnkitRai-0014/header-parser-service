@@ -12,22 +12,22 @@ app.get("/", (req, res) => {
 // ✅ FCC-required endpoint
 app.get("/api/whoami", (req, res) => {
   // ✅ Get real IP address
-  const forwarded = req.headers['x-forwarded-for'];
+  const forwarded = req.headers["x-forwarded-for"];
   const ip = forwarded ? forwarded.split(",")[0] : req.connection.remoteAddress;
 
   // ✅ Get language & software
-  const language = req.headers['accept-language'];
-  const software = req.headers['user-agent'];
+  const language = req.headers["accept-language"];
+  const software = req.headers["user-agent"];
 
   res.json({
     ipaddress: ip,
     language: language,
-    software: software
+    software: software,
   });
 });
 
 // Listen
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
