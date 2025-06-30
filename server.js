@@ -2,18 +2,22 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ optionsSuccessStatus: 200 })); // FCC tests use remote requests
+app.use(cors({ optionsSuccessStatus: 200 }));
 
 // Root (optional)
 app.get("/", (req, res) => {
   res.send("Request Header Parser Microservice is running!");
 });
 
-// ✅ Your API endpoint
+// ✅ FCC-required endpoint
 app.get("/api/whoami", (req, res) => {
-  const ip = req.ip || req.connection.remoteAddress;
-  const language = req.get("Accept-Language");
-  const software = req.get("User-Agent");
+  // ✅ Get real IP address
+  const forwarded = req.headers['x-forwarded-for'];
+  const ip = forwarded ? forwarded.split(",")[0] : req.connection.remoteAddress;
+
+  // ✅ Get language & software
+  const language = req.headers['accept-language'];
+  const software = req.headers['user-agent'];
 
   res.json({
     ipaddress: ip,
